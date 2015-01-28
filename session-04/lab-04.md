@@ -1,4 +1,4 @@
-#Module 04: The Build Blocks of Programming: Statements, Expressions, Data Types, Operators, and Variables
+#Module 04: The Building Blocks of Programming: Statements, Expressions, Data Types, Operators, and Variables
 
 ##Overview
 This lab does the following:
