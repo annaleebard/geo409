@@ -55,16 +55,16 @@
 
 <body>
     <header>
-        <h1>Map Title</h1>
-        <h2>Map Subtitle</h2>
+        <h1>Kentucky</h1>
+        <h2>Hell Yeah!</h2>
     </header>
 
     <div id='map'></div>
 
     <footer>
-        <p>Map authored by YOUR NAME</p>
-        <p>Additional information about the data and map goes here.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna magna, maximus nec laoreet sit amet, dictum ultricies nibh. Ut id auctor lacus. Nam a dolor et justo luctus luctus. Duis a elit eget risus dictum vehicula id eu elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed sed enim nisl. Vestibulum commodo imperdiet lacus, sed facilisis erat placerat sit amet. Nulla consequat malesuada neque eget aliquet. Integer non convallis nisl, gravida ultrices ex. Fusce nec vestibulum elit. Sed elementum lectus ipsum, vulputate elementum ex laoreet a. Aenean eu ex varius, varius felis vitae, efficitur nulla. Quisque pretium laoreet ante, in sodales dui vehicula at. Mauris eu sem sapien.
+        <p>Map authored by Anna Lee Espinosa Bard</p>
+        <p>Kentucky, open up and say hell yeah!</p>
+        <p> I was born and raised in Kentucky's cave country. Three of my favoirite Kentucky cities are highlighted in this map. 
         </p>
     </footer>
 
@@ -73,7 +73,7 @@
         var targetDiv = 'map';
 
         var options = {
-            center: [38.0489,-84.5025],
+            center: [37.1371,-85.9571],
             zoom: 8
         }
         map = L.map(targetDiv, options);
@@ -88,18 +88,24 @@
         // begin writing/editing Task D code here
     
  var cities = ["Cave City", "Central City", "Bowling Green"];
-        console.log(cities);
+ var cityCoords = [
+          [37.1371, -85.9571],
+          [37.2951, -87.1286],
+          [36.981657, -86.4444],
+       ];
+  var cityPops = [2292, 5978, 60600];
+  var cityCapital = [false, false, false];
         
 
-     //   for(/* add code here */) {
-            
-            var popup = "<b>"+/* add code here */+"</b><br>"
-                            +"<b>population</b>: "+/* add code here */;
+for (var i = 0; i < cities.length + 1; i++ )
 
-            if(/* add code here */ == true) {
-               
-                popup += "<br>Capitol of the Commonwealth of Kentucky"; 
-                
+      {
+            
+            var popup = "<b>"+cities[i]+"</b><br>"
+                            +"<b>population</b>: "+cityPops[i];
+
+            if(cityCapitol = "true") {
+                   popup += "<br>Capitol of the Commonwealth of Kentucky";          
             } 
             
             L.marker(cityCoords[i]).addTo(map)
