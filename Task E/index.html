@@ -91,8 +91,9 @@
         prepareData(lexArea, louArea, richArea); // modify function call to pass 2 additional
                               // arguments
         
-        function prepareData(lexArea, louArea, richArea) { /* include 2 more parameters here */
-            
+        function prepareData(lexArea, louArea, richArea) 
+        
+        {   
             var cities = ["Lexington", "Lousiville", "Richmond"]; 
             var cityCoords = [
                 [38.0297, -84.4947], 
@@ -100,7 +101,7 @@
                 [37.7447, -84.2936]    
             ];
             var cityPops = [308428, 756832, 32550]; 
-            
+         
             var cityAreas = [lexArea, louArea, richArea]; 
                     
             mapCities(cities, cityCoords, cityPops, cityAreas); 
@@ -109,37 +110,35 @@
             
         function mapCities(cities, cityCoords, cityPops, cityAreas) { 
             
-            var units = 'km';
+            var units = 'miles';
             
             for(var i = 0; i < cities.length; i++) {
 
-           var density = calcPopDensity(cityPops[i], cityAreas[i], units);
-           
-           //here, passing the city population and area as arguments, and assign
-          //                       return value to the "density" variable */
+           var density = calcPopDensity(cityPops[i],                            cityAreas[i], units);
 
                 var popup = "<b>"+cities[i]+"</b><br>"
-                                +"<b>Density</b>: "+density.toLocaleString()+" people per sq " + units;
+                                +"<b>Density</b>:                                           "+density.toLocaleString()+" people                                 per sq " + units;
 
                 L.marker(cityCoords[i]).addTo(map)
                     .bindPopup(popup);
                 
             }
         }
-        function calcPopDensity(cityPops,cityAreas,units)
-        {
-            var density = cityPops/cityAreas;
-            if (units =='miles') return density;
+        function calcPopDensity(cityPops,cityAreas,units){
+            
+      var density = cityPops/cityAreas;
+            if(units=="miles") return density;
             else return density * 2.59;
-        return density;
+            return density;
         }
+        
         // write a function named calcPopDensity which accepts two arguments from the caller, the  
         // population and the area of a single city. The function should calculate the density
         // of the city with these two values and return the result to the caller 
         
 
         // end writing/editing Task E code here
-          
+     
     </script>
     
 </body>

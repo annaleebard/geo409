@@ -59,7 +59,7 @@
     <footer>
         <p>Map authored by YOUR NAME</p>
         <p>Additional information about the data and map goes here.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna magna, maximus nec laoreet sit amet, dictum ultricies nibh. Ut id auctor lacus. Nam a dolor et justo luctus luctus. Duis a elit eget risus dictum vehicula id eu elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed sed enim nisl. Vestibulum commodo imperdiet lacus, sed facilisis erat placerat sit amet. Nulla consequat malesuada neque eget aliquet. Integer non convallis nisl, gravida ultrices ex. Fusce nec vestibulum elit. Sed elementum lectus ipsum, vulputate elementum ex laoreet a. Aenean eu ex varius, varius felis vitae, efficitur nulla. Quisque pretium laoreet ante, in sodales dui vehicula at. Mauris eu sem sapien.
         </p>
     </footer>
 
@@ -77,55 +77,18 @@
             subdomains: '0123',
             minZoom: 2,
             maxZoom: 18
+            
         });
         map.addLayer(tiles);
         
-        var myObject = {};
-        console.log(myObject);
-        var iguana= {
-            name: "Jack",
-            weight: 4.2,
-            questForWorldDomination: false
-            
-            }
-        
-       iguana ["weight"] =6.1;
-        iguana ["age"] = 10
-        console.log(iguana);
+    
        
-        iguana.madGenius = true;
-         console.log(iguana.name);
-        console.log(iguana.weight);
-        console.log(iguana.age);
+        var cityName = "Lexington";
+        var cityNamesCaps = cityName.toUpperCase();
+        console.log(cityNamesCaps);
         
-        console.log(iguana["name"]);
-        console.log(iguana["weight"]);
-        iguana.color = "green";
-        iguana["color"] = "purple";
-        iguana["unlovedAsBaby"] = true;
-      
-        console.log(iguana.unlovedAsBaby);
-        
-        console.log(iguana.color);
-        console.log(iguana);
-        if (iguana.questForWorldDomination == true) {
-                console.log("I for one, slaute our new Iguana overlords.");
-            
-       var iguana = { 
-        name: "Jack", 
-        weight: 4.2, // assume kilograms
-        age: 8,
-        length:100,
-        eyes: "dreamy",
-        questForWorldDomination: true,
-      calculateBMI: function(w,l) {
-            return w /(l*l);
-        }
-       
-           var result = iguana.calculateBMI(4.2,1.5);
-            console.log(result);
-        
-        }
+    
+    
         
     </script>
     
