@@ -118,31 +118,47 @@
             }
         
         ]; 
+        console.log(cities[0].properties.state);
         
         function buildPopup(name,pop,state) {
             if(state =="KY") {
-                var colorClass = "blue";
-             if(state == "OH") 
-                var colorClass = "red";
-            else 
-                var colorClass = "yellow";}
+                var colorClass = "blue";}
+             else if(state == "OH"){ 
+                var colorClass = "red";}
+            else if (state == "IN") {
+                var colorClass = "yellow";}   
      
-        "<div class='"+colorClass+"'><b>"+name+"</b><br>"+
+      return  "<div class='"+colorClass+"'><b>"+name+"</b><br>"+
+    "<b>Population</b>: "+pop.toLocaleString()+"<div>";
+        };
+    
+        
+        
+      for (var i = 0; i < cities.length; i++)
+            {   var props = cities[i].properties;
+             
+                var popup = buildPopup(cities[i].name, props.population, props.state);
+             
+             L.marker(props.coordinates).addTo(map)
+                        .bindPopup(popup);
+          
+      //console.log(props);
+      // console.log(cities[i]);
+            }
+           
+        
+         function buildPopup(name,pop,state) {
+            if(state =="KY") {
+                var colorClass = "blue";}
+             else if(state == "OH"){ 
+                var colorClass = "red";}
+            else if (state == "IN") {
+                var colorClass = "yellow";}   
+     
+      return  "<div class='"+colorClass+"'><b>"+name+"</b><br>"+
     "<b>Population</b>: "+pop.toLocaleString()+"<div>";
         };
         
-      var coordsList =[];
-        
-      for (var i = 0; i < cities.length; i++)
-        
-      {   var props = cities[i].properties;
-       var popup = buildPopup;
-       
-       L.marker(props.coordinates).addTo(map)
-                .bindPopup(popup);
-     // console.log(props);
-      }
-            
         
    
       //  console.log(props);
