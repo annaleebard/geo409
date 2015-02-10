@@ -3,7 +3,7 @@
 
 <head>
     <meta charset=utf-8 />
-    <title>Module 04 Template</title>
+    <title>Geo409 Task E Starter</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
@@ -45,6 +45,8 @@
             color: #001323;
         }
         /* Additional style rules go here! */
+        
+
     </style>
 </head>
 
@@ -69,7 +71,7 @@
 
         var options = {
             center: [38.0489,-84.5025],
-            zoom: 13
+            zoom: 8
         }
         map = L.map(targetDiv, options);
         var tiles = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-hillshading/{z}/{x}/{y}.png', {
@@ -79,16 +81,60 @@
             maxZoom: 18
         });
         map.addLayer(tiles);
-       var value1 = 30;
-var value2 = 60;
-var total = value1 + value2;
-console.log(total);
-var average = value1/value2;
-console.log(average);
-        console.log("baljdhasflsdh");
-        // continue JavaScript coding here!
         
+        // begin writing/editing Task E code here
         
+        var lexArea = 285.5;
+        // create a second variable for a second city's area here
+        // create a third variable for a third city's area here
+        
+        prepareData(lexArea, louArea, richArea);
+        function prepareData(lexArea, louArea, richArea) { 
+            
+           var cities = ["Lexington", "Lousiville", "Richmond"]; 
+            var cityCoords = [
+                [38.0297, -84.4947], 
+                [38.228870, -85.749534],
+                [37.7447, -84.2936]    
+            ];
+            var cityPops = [308428, 756832, 32550]; 
+         
+            var cityAreas = [lexArea, louArea, richArea]; 
+                    
+            mapCities(cities, cityCoords, cityPops, cityAreas); 
+        }
+            
+        function mapCities(cities, cityCoords, cityPops, cityAreas) { 
+            
+            var units = 'miles';
+            
+            for(var i = 0; i < cities.length; i++) {
+                
+                var units = 'miles' 
+                var density =  calcPopDensity(cities[i],cityPops[i],units);
+                var popup = "<b>"+cities[i]+"</b><br>"
+                                +"<b>Density</b>: "+density.toLocaleString()+" people per sq " + units;
+                L.marker(cityCoords[i]).addTo(map)
+                    .bindPopup(popup);
+                
+            }
+        }
+        function calcPopDensity(cityPops, cityAreas, units) {
+            
+            var density = cityAreas/cityPops;
+            
+            
+            
+            
+            
+        }
+        // write a function named calcPopDensity which accepts two arguments from the caller, the  
+        // population and the area of a single city. The function should calculate the density
+        // of the city with these two values and return the result to the caller 
+        
+
+        // end writing/editing Task E code here
+          
     </script>
     
 </body>
