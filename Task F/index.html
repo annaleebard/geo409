@@ -45,7 +45,6 @@
             color: #001323;
         }
         /* Additional style rules go here! */
-        
         .blue {
             color: #165bb6;
         }
@@ -56,10 +55,8 @@
             color: #cc0000;
         }
         .purple {
-            color: #b6165b; 
+            color: #b6165b;
         }
-        
-
     </style>
 </head>
 
@@ -79,12 +76,11 @@
     </footer>
 
     <script>
-
         var map = L.map('map', {
-            center: [38.96,-85.36],
+            center: [38.96, -85.36],
             zoom: 7,
         });
-       
+
         var tiles = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-hillshading/{z}/{x}/{y}.png', {
             attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
             subdomains: '0123',
@@ -92,85 +88,72 @@
             maxZoom: 12
         });
         map.addLayer(tiles);
-        
-        // Begin writing/modifying code for Task F here
-        
+
+         // Begin writing/modifying code for Task F here
+
         var cities = [
-             { 
-                 name: "Louisville",
-                 properties: {
-                     coordinates: [38.25, -85.7667],
-                     population: 756832,
-                     state: "KY"   } 
-             },
-                
-            {    name: "Troy",
-                 properties: {
-                        coordinates: [40.0417, -84.2086],
-                        population: 25445,
-                        state: "OH"}
-            },
-            {   name: "New Castle",
+            {
+                name: "Louisville",
                 properties: {
-                        coordinates: [39.9236, -85.3650],
-                        population: 17694,
-                        state: "IN"}
+                    coordinates: [38.25, -85.7667],
+                    population: 756832,
+                    state: "KY"
+                }
+             },
+
+            {
+                name: "Troy",
+                properties: {
+                    coordinates: [40.0417, -84.2086],
+                    population: 25445,
+                    state: "OH"
+                }
+            },
+            {
+                name: "New Castle",
+                properties: {
+                    coordinates: [39.9236, -85.3650],
+                    population: 17694,
+                    state: "IN"
+                }
             }
-        
-        ]; 
+
+        ];
         console.log(cities[0].properties.state);
-        
-        function buildPopup(name,pop,state) {
-            if(state =="KY") {
-                var colorClass = "blue";}
-             else if(state == "OH"){ 
-                var colorClass = "red";}
-            else if (state == "IN") {
-                var colorClass = "yellow";}   
-     
-      return  "<div class='"+colorClass+"'><b>"+name+"</b><br>"+
-    "<b>Population</b>: "+pop.toLocaleString()+"<div>";
-        };
-    
-        
-        
-      for (var i = 0; i < cities.length; i++)
-            {   var props = cities[i].properties;
-             
-                var popup = buildPopup(cities[i].name, props.population, props.state);
-             
-             L.marker(props.coordinates).addTo(map)
-                        .bindPopup(popup);
-          
-      //console.log(props);
-      // console.log(cities[i]);
+
+        function buildPopup(name, pop, state) {
+            if (state == "KY") {
+                var colorClass = "blue";
+            } else if (state == "OH") {
+                var colorClass = "red";
+            } else if (state == "IN") {
+                var colorClass = "yellow";
             }
-           
-        
-         function buildPopup(name,pop,state) {
-            if(state =="KY") {
-                var colorClass = "blue";}
-             else if(state == "OH"){ 
-                var colorClass = "red";}
-            else if (state == "IN") {
-                var colorClass = "yellow";}   
-     
-      return  "<div class='"+colorClass+"'><b>"+name+"</b><br>"+
-    "<b>Population</b>: "+pop.toLocaleString()+"<div>";
+
+            return "<div class='" + colorClass + "'><b>" + name + "</b><br>" +
+                "<b>Population</b>: " + pop.toLocaleString() + "<div>";
         };
-        
-        
-   
-      //  console.log(props);
-    //    console.log(cities[1].properties.population);
-      //  console.log(cities[1].properties.coordinates[1]);
-       
-       
-            // End code for Task F
-        
-          
+
+        for (var i = 0; i < cities.length; i++) {
+            var props = cities[i].properties;
+
+            var popup = buildPopup(cities[i].name, props.population, props.state);
+
+            L.marker(props.coordinates).addTo(map)
+                .bindPopup(popup);
+
+            //console.log(props);
+            // console.log(cities[i]);
+        }
+
+         //  console.log(props);
+         //    console.log(cities[1].properties.population);
+         //  console.log(cities[1].properties.coordinates[1]);
+
+
+         // End code for Task F
     </script>
-    
+
 </body>
 
 </html>
