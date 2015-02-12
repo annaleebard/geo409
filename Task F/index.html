@@ -141,8 +141,8 @@
              
              L.marker(props.coordinates).addTo(map)
                         .bindPopup(popup);
-          
-      //console.log(props);
+            
+      console.log(props);
       // console.log(cities[i]);
             }
            
@@ -150,10 +150,10 @@
          function buildPopup(name,pop,state) {
             if(state =="KY") {
                 var colorClass = "blue";}
-             else if(state == "OH"){ 
+              else if (state == "OH"){ 
                 var colorClass = "red";}
-            else if (state == "IN") {
-                var colorClass = "yellow";}   
+             if (state == "IN") {
+                var colorClass = "purple";}   
      
       return  "<div class='"+colorClass+"'><b>"+name+"</b><br>"+
     "<b>Population</b>: "+pop.toLocaleString()+"<div>";
