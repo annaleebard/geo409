@@ -194,31 +194,38 @@ var Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/
             iguanaGroup.addTo(map);
 //      steps 4-6  here
             
-       // var marker // keep this code
-       
-//        map.on('click', function(e) {  // keep this code
-
-// uncomment this code after step seven is finished          
-//            if(map.hasLayer(marker)) {               
-//                map.removeLayer(marker);
-//            }
-
-            var markerLocation = L.latLng(-37.8136,144.9631);    
-            var marker = L.marker(markerLocation, {
-                            draggable: true,
-            });
         
-//                step seven here            
+      
+        var marker;  
+        map.on('click', function(e) {  
+
+ //uncomment this code after step seven is finished          
+           if(map.hasLayer(marker)) {               
+               map.removeLayer(marker);
+           }
+
+        
+        
+//                step seven here     
+        var clickLocation = (e.latlng);
+        marker = L.marker(clickLocation);
+        marker.addTo(map);
+            console.log(e.latlng);
+            
 //              step eight here
-            marker.addTo(map);
-            marker.on('drag', function(e) {
-                    console.log(e.taret.getLatLng());
-            });
- //       });  // keep this code
+       
+         testDistance(clickLocation);       
+           
+          
+        });  // keep this code
         
-        function testDistance() {
+        function testDistance(clickLocation) {
             
             iguanaGroup.eachLayer(function(layer) {
+                
+                var findRadius = layer.getRadius();
+                console.log(findRadius);
+                var distance 
 //              step 9 here
 //              step 10 here
             });
