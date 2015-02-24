@@ -55,23 +55,23 @@
     </header>
 
     <div id='map'></div>
-
+ 
     <footer>
         
-// steps and 11 and 12 below        
+    
         <p>Map authored by Anna Lee Espinosa Bard</p>
-        <p>Additional information about the data and map goes here.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+        <p>Use this map to safely run away from mutant iguanas and get to Runaway Country Music Fest.</p>
+        <p>The Lord Mayor of Melbourne has hired me to create this map documenting all local mutant alien iguana camps. This map ensures all students with poor music tastes will safelty be able to travel to the Runaway Country Music Fest 2015. The university students of Melbourne, Australia can use this map to test if their planned travel routes are safe from mutant iguana tounges!
         </p>
     </footer>
-
+<a href="https://github.com/annaleebard/geo409">Click here</a> to visit my Github account.</a>
     <script>
       var map = L.map('map', {
         center: [-37.8136,144.9631],
         zoom: 10
           ,
         minZoom: 4,
-        maxZoom: 12
+        maxZoom: 15
     });
            
 var Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
@@ -187,26 +187,23 @@ var Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/
             var size = iguanaZones[i].properties.size;
                 //console.log(size);
             var campCircles = L.circle(coordinates,size,iguanaDefault)
-             //L.circle(iguanaZones[i].coordinates,iguanaZones[i].properties.size,iguanaDefault);
+              
             
             iguanaGroup.addLayer(campCircles);
         };
             iguanaGroup.addTo(map);
-//      steps 4-6  here
-            
         
+//      steps 4-6  here    
       
         var marker;  
         map.on('click', function(e) {  
 
- //uncomment this code after step seven is finished          
+       
            if(map.hasLayer(marker)) {               
                map.removeLayer(marker);
-           }
-
-        
-        
-//                step seven here     
+           } 
+//                step seven here   
+            
         var clickLocation = (e.latlng);
         marker = L.marker(clickLocation);
         marker.addTo(map);
@@ -214,20 +211,33 @@ var Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/
             
 //              step eight here
        
-         testDistance(clickLocation);       
-           
-          
-        });  // keep this code
+         testDistance(clickLocation);          
+        });  
         
         function testDistance(clickLocation) {
             
             iguanaGroup.eachLayer(function(layer) {
                 
-                var findRadius = layer.getRadius();
-                console.log(findRadius);
-                var distance 
+                
+                var safety = layer.getRadius()+2200
+                console.log(safety);
+//                var radius = layer.getRadius();
+//                console.log(radius);
+//                var center =layer.getLatLng();
+//                console.log(center);
+//                var trueDistance = center + radius
+//                console.log(trueDistance);
+//                
+               var trueDistance = clickLocation.distanceTo(layer.getLatLng())
 //              step 9 here
-//              step 10 here
+              // console.log(trueDistance);
+                
+                if (trueDistance > 2200) {
+                    layer.setStyle(iguanaDefault) 
+                }
+                else {layer.setStyle(iguanaStyle)
+                     }
+          //    step 10 here
             });
         }
         
