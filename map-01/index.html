@@ -207,35 +207,27 @@ var Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/
         var clickLocation = (e.latlng);
         marker = L.marker(clickLocation);
         marker.addTo(map);
-            console.log(e.latlng);
+           // console.log(e.latlng);
             
 //              step eight here
        
          testDistance(clickLocation);          
         });  
         
-        function testDistance(clickLocation) {
+        function testDistance(testCoords) {
             
-            iguanaGroup.eachLayer(function(layer) {
+            iguanaGroup.eachLayer(function(layer) {     
+                
+                var distance = testCoords.distanceTo(layer.getLatLng());
+                console.log(distance);
+                
+                distance = distance - layer.getRadius();
                 
                 
-                var safety = layer.getRadius()+2200
-                console.log(safety);
-//                var radius = layer.getRadius();
-//                console.log(radius);
-//                var center =layer.getLatLng();
-//                console.log(center);
-//                var trueDistance = center + radius
-//                console.log(trueDistance);
-//                
-               var trueDistance = clickLocation.distanceTo(layer.getLatLng())
-//              step 9 here
-              // console.log(trueDistance);
-                
-                if (trueDistance > 2200) {
-                    layer.setStyle(iguanaDefault) 
+                if ( distance < 2200) {
+                    layer.setStyle(iguanaStyle) 
                 }
-                else {layer.setStyle(iguanaStyle)
+                else {layer.setStyle(iguanaDefault)
                      }
           //    step 10 here
             });
