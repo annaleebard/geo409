@@ -62,38 +62,300 @@
 
 <body>
     <header>
-        <h1>Map Title</h1>
-        <h2>Map Subtitle</h2>
+        <h1>CAVE CITY</h1>
+        <h2>Home of the Kentucky Waterfall.</h2>
     </header>
 
     <div id='map'></div>
 
     <footer>
-        <p>Map authored by YOUR NAME</p>
-        <p>Additional information about the data and map goes here.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna magna, maximus nec laoreet sit amet, dictum ultricies nibh. Ut id auctor lacus. Nam a dolor et justo luctus luctus. Duis a elit eget risus dictum vehicula id eu elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed sed enim nisl. Vestibulum commodo imperdiet lacus, sed facilisis erat placerat sit amet. Nulla consequat malesuada neque eget aliquet. Integer non convallis nisl, gravida ultrices ex. Fusce nec vestibulum elit. Sed elementum lectus ipsum, vulputate elementum ex laoreet a. Aenean eu ex varius, varius felis vitae, efficitur nulla. Quisque pretium laoreet ante, in sodales dui vehicula at. Mauris eu sem sapien.
+        <p>Map authored by Anna Lee Espinosa Bard</p>
+        <p>CAVE CITY. You will never be the same again.</p>
+        <p>Take a step into the wild wonderful world of CAVE CITY, KENTUCKY. Natural wonder Mammoth Cave National Park is just miles from these noted toursit attractions. Iguana free Kentucky town. 
         </p>
     </footer>
 
     <script>
 
         var map = L.map('map', {
-            center: [38.96,-85.36],
-            zoom: 8,
+            center: [37.1372,-85.9769],
+            zoom: 14,
         });
        
         var tiles = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-hillshading/{z}/{x}/{y}.png', {
             attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
             subdomains: '0123',
             minZoom: 4,
-            maxZoom: 12
+            maxZoom: 20
         });
         map.addLayer(tiles);
         
         // Begin writing/modifying code for Task H here
+    var places =  {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#7e7e7e",
+        "marker-size": "medium",
+        "marker-symbol": "",
+        "name": "Wigwam Village",
+        "description": "Mid-century wigwam motel. HBO and Air Conditioning.",
+        "radius": 500
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.94558358192444,
+          37.14481748592165
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#7e7e7e",
+        "marker-size": "medium",
+        "marker-symbol": "",
+        "name": "Funtown Mountain",
+        "description": "Land of Kentucky founded fun and ananimatronic genius. ",
+        "radisu": 1000
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.97981929779053,
+          37.137415296489415
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#7e7e7e",
+        "marker-size": "medium",
+        "marker-symbol": "",
+        "name": "Mammoth Cave Wax Museum ",
+        "description": "Kentucky's own wonderful world of wax. ",
+        "radius": 100
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.99275827407837,
+          37.13486648362684
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "fill": "#555555",
+        "fill-opacity": 0.5,
+        "name": "Jellystone Campground",
+        "description": "Camping with Yogi bear and all your friends. "
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -85.99612712860107,
+              37.13620077221058
+            ],
+            [
+              -85.99563360214233,
+              37.13765477784881
+            ],
+            [
+              -85.99383115768433,
+              37.13794557562319
+            ],
+            [
+              -85.99260807037352,
+              37.13951928536274
+            ],
+            [
+              -85.99308013916016,
+              37.14083638682725
+            ],
+            [
+              -85.9943675994873,
+              37.14167453036488
+            ],
+            [
+              -85.99565505981445,
+              37.140357443493436
+            ],
+            [
+              -85.99642753601074,
+              37.138458745439564
+            ],
+            [
+              -85.99612712860107,
+              37.13620077221058
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -85.94522953033446,
+            37.144650720132226
+          ],
+          [
+            -85.95025062561035,
+            37.141264012241486
+          ],
+          [
+            -85.95595836639404,
+            37.135756011963814
+          ],
+          [
+            -85.95975637435913,
+            37.13897191177501
+          ],
+          [
+            -85.96097946166992,
+            37.13951928536274
+          ],
+          [
+            -85.96389770507812,
+            37.13972454943704
+          ],
+          [
+            -85.968017578125,
+            37.14129822217019
+          ],
+          [
+            -85.97321033477782,
+            37.13804820986493
+          ],
+          [
+            -85.97492694854736,
+            37.13469541928618
+          ],
+          [
+            -85.97981929779053,
+            37.13601260473295
+          ],
+          [
+            -85.9830594062805,
+            37.13587575536436
+          ],
+          [
+            -85.97883224487305,
+            37.13681658977446
+          ],
+          [
+            -85.97979784011841,
+            37.13750082563336
+          ],
+          [
+            -85.98301649093628,
+            37.13602971088662
+          ],
+          [
+            -85.98668575286864,
+            37.13560205588463
+          ],
+          [
+            -85.98955035209656,
+            37.13441316227854
+          ],
+          [
+            -85.99174976348877,
+            37.13437894923636
+          ],
+          [
+            -85.9930157661438,
+            37.134721078961945
+          ],
+          [
+            -85.99383115768433,
+            37.13499478162855
+          ],
+          [
+            -85.99516153335571,
+            37.134780951504865
+          ],
+          [
+            -85.99549412727356,
+            37.1354395463501
+          ],
+          [
+            -85.99632024765015,
+            37.13620932526663
+          ],
+          [
+            -85.99615931510925,
+            37.136850801714395
+          ]
+        ]
+      }
+    }
+  ]
+}
+    var pointOptions = {
+        color: "blue",
+        weight: 3,
+        fillColor: "#ff7800",
+        fillOpacity: 1
+       
+    }
+    var lineOptions = {
+        color: "red",
+        weight: 2
+    }
+    var polygonOptions = {
+        color: "green",
+        weight:3 
+    }
         
-
-          
+    var placesLeaflet = L.geoJson(places, {
+        pointToLayer: function(feature,latlng) {
+        return L.circle( latlng, 100);
+            console.log(feature);
+   //***ask about including size variable and returning NaN in lng
+            },
+        
+    style : function(feature){
+        return { dashArray: "3,5",
+                weight: 10
+               }
+    },
+        onEachFeature: function(feature, layer) {
+            if (feature.geometry.type == "Point") {
+                layer.setStyle(pointOptions);
+                layer.bindPopup(feature.properties.description)
+            }
+            if(feature.geometry.type == "LineString") {
+                layer.setStyle(lineOptions);
+                console.log(layer);
+                
+            }
+            if(feature.geometry.type =="Polygon") {
+                layer.setStyle(polygonOptions);
+                layer.bindPopup(feature.properties.description)
+            }
+        }
+        }).addTo(map);
+        
+   
+        
+        
+        console.log(places);
+    // console.log(placesLeaflet);    
     </script>
     
 </body>
