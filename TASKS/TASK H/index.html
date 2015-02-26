@@ -335,6 +335,8 @@
                }
     },
         onEachFeature: function(feature, layer) {
+            console.log(layer);
+            console.log(feature);
             if (feature.geometry.type == "Point") {
                 layer.setStyle(pointOptions);
                 layer.bindPopup(feature.properties.description)
