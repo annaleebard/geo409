@@ -102,7 +102,7 @@
         "marker-symbol": "",
         "name": "Wigwam Village",
         "description": "Mid-century wigwam motel. HBO and Air Conditioning.",
-        "radius": 500
+        "radius": 150
       },
       "geometry": {
         "type": "Point",
@@ -120,7 +120,7 @@
         "marker-symbol": "",
         "name": "Funtown Mountain",
         "description": "Land of Kentucky founded fun and ananimatronic genius. ",
-        "radisu": 1000
+        "radius": 200
       },
       "geometry": {
         "type": "Point",
@@ -138,7 +138,7 @@
         "marker-symbol": "",
         "name": "Mammoth Cave Wax Museum ",
         "description": "Kentucky's own wonderful world of wax. ",
-        "radius": 100
+        "radius": 50
       },
       "geometry": {
         "type": "Point",
@@ -324,7 +324,7 @@
         
     var placesLeaflet = L.geoJson(places, {
         pointToLayer: function(feature,latlng) {
-        return L.circle( latlng, 100);
+        return L.circle( latlng, feature.properties.radius);
             console.log(feature);
    //***ask about including size variable and returning NaN in lng
             },
