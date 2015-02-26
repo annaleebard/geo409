@@ -285,16 +285,87 @@
         }
       ]
     } 
-         var europefeatures = L.geoJson(myFeatures).addTo(map);
-        console.log(europefeatures);
+//         var europefeatures = L.geoJson(myFeatures).addTo(map);
+//        console.log(europefeatures);
+//        
+//        var europefeatures = L.geoJson(myFeatures, {
+//            onEachFeature: function(feature,layer){
+//                console.log(feature);
+//                console.log(layer);
+//                            }
+//                            }).addTo(map);
+        var pointOptions = {
+            color: "purple"
+        }
+        var lineOptions = {
+            color: "yellow"
+        }
+        var polygonOptions = {
+            color: "red"
+        }
         
-        var europefeatures = L.geoJson(myFeatures, {
-            onEachFeature: function(feature,layer){
-                console.log(feature);
-                console.log(layer);
-                            }
-                            }).addTo(map);
+        var europeFeatures = L.geoJson(myFeatures, {
+        pointToLayer : function(feature, latlng) {
+            return L.circle(latlng, feature.properties.size);
+        },
+            
+        onEachFeature: function(feature, layer) {
+        if(feature.geometry.type == "Point") {
+            layer.setStyle(pointOptions);
+            layer.bindPopup("I am a "+feature.geometry.type+ " Feature!")
+        }
+        if(feature.geometry.type == "LineString") {
+            layer.setStyle(lineOptions);
+            layer.bindPopup("I am a "+feature.geometry.type+ " Feature!")
+        }   
+        if(feature.geometry.type == "Polygon") {
+            layer.setStyle(polygonOptions);
+            layer.bindPopup("I am a "+feature.geometry.type+ " Feature!")
+        }
+    }
+    }).addTo(map);
         
+          var newPolygon = {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {},
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  28.125,
+                  58.859223547066584
+                ],
+                [
+                  23.1591796875,
+                  58.44773280389084
+                ],
+                [
+                  21.3134765625,
+                  56.17002298293205
+                ],
+                [
+                  25.6201171875,
+                  56.12106042504407
+                ],
+                [
+                  28.212890625,
+                  57.37393841871411
+                ],
+                [
+                  28.125,
+                  58.859223547066584
+                ]
+              ]
+            ]
+          }
+        }
+      ]
+    }
+          europeFeatures.addData(newPolygon);
     </script>
     
 </body>
