@@ -20,7 +20,7 @@
             color: #0D0000;
         }
         header {
-            padding: 6px 10%;
+            padding: 10px 10%;
         }
         h1 {
             display: inline-block;
@@ -29,6 +29,7 @@
         }
         h2 {
             display: inline-block;
+            margin-right:20px;
             color: #001323;
         }
         #map {
@@ -51,20 +52,55 @@
 
 <body>
     <header>
-        <!-- add HTML here-->
+       <h1>Seattle Power Plants</h1>
+        <h2>oh my</h2> 
     </header>
-
-        <!-- add HTML here-->
-
+    <div id='map'></div>
     <footer>
+        <p>Map authored by Anna Lee Espinosa Bard</p>
+        <p>One fuel source symbolized.</p>
+        <p>Stacked circles can tell a story. NO IGUANAS OR TREDMILLS USED IN THE MAKING OF THIS MAP.
+        </p>
         <!-- add HTML here-->
     </footer>
         
-        <!-- load external JS file here-->
+       <script src="power-plants-assignment.js"></script>
+  
+    <!-- load external JS file here-->
     <script>
-
-          // add JavaScript here
+// add JavaScript here
         
+        plants.features.sort(function(x,z) {
+			return z.properties.capacity_mw - x.properties.capacity_mw;
+		});
+        
+        var map = L.map('map', {
+            center: [46,-118],
+            zoom: 5,
+        });
+       
+        var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', 
+                                         {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+            subdomains: 'abcd',
+            minZoom: 0,
+            maxZoom: 18
+        });
+        map.addLayer(tiles);
+        
+        console.log(plants);
+      
+        L.geoJson(plants, {
+            pointToLayer: function(feature,latlng) {
+                return L.circleMarker(latlng);
+            }
+        }).addTo(map);
+        
+        filter: function(feature, layer) {
+                if(feature.properties.capacity_mw <= 500){
+                    return feature;   
+                }
+            },
     </script>
     
 </body>
