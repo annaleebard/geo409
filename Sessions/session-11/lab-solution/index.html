@@ -80,6 +80,8 @@
             minZoom: 0,
             maxZoom: 18
         });
+        
+       
         map.addLayer(tiles);
         
         // Begin writing/modifying code for Map 2 here
@@ -104,6 +106,7 @@
                 }
             },
             onEachFeature: function(feature,layer) {
+               // console.log(feature);
                 var props = feature.properties;
                 var content = "<b>"+props.plant_name+"</b><br>"+
                     props.capacity_mw.toLocaleString()+" MW<br>";
@@ -115,8 +118,9 @@
                 
                 layer.on('mouseover', function() {
                     layer.setStyle({
-                        fillColor: 'red'
+                        fillColor: 'red',
                     });
+                    
                 });
                 layer.on('mouseout', function() {
                     layer.setStyle({
@@ -129,7 +133,7 @@
       
         function getRadius(val) {
             var radius = Math.sqrt(val/Math.PI);
-            return radius * .8;   
+            return radius * .5;   
         }        
         
     </script>
