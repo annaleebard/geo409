@@ -97,20 +97,49 @@
                     weight: 3,
                     fillColor: "blue",
                     fillOpacity: .8,
-                   // radius: getRadius(feature.properties.capacity)
+                    radius: getRadius(feature.properties.capacity)
                 });
             },
+            
             filter: function(feature,layer){
-                if(feature.properties.source["Hydro"]&&
+                if( feature.properties.source["Hydro"]&&
                 feature.properties.source["Hydro"]<=500)
                     return feature;
-                }
-            
-        }).addTo(map);
-    
+                
+                
+                console.log(feature.geometry.coordinates);
+                var plantCoords = L.latLng(feature.geometry.coordinates) 
+                  //  console.log(plantCoords); 
+                var seattleCoords = L.latLng(47.6097, -122.3331);
+                  //  console.log(seattleCoords);
+                var distancePlants = plantCoords.distanceTo(seattleCoords)
+             //   console.log(distancePlants);
+                
+                },
+//           onEachFeature: function(feature,layer) {
+//                var props = feature.properties;
+//                    console.log(props)
+//                    
+//                var content = "<b>"+props.plant_name+"</b><br>"props.capacity.toLocaleString()+" MW<br>";
+//               
+//                var source = props.source;
+//                    
+//                    for(var fuel in source){
+//                        content+="<b>"+fuel+"</b>: "+source[fuel].toLocaleString()+" MW<br>";
+//                }
+//                layer.bindPopup(content); 
+//        
+//        
+//                }
+            }).addTo(map);
        
-         
-                  
+       function getRadius(val) {
+            var radius = Math.sqrt(val/Math.PI);
+            return radius * 1.1; 
+        }
+      
+     
+                 
        
             
     </script>
