@@ -52,14 +52,14 @@
 
 <body>
     <header>
-       <h1>Seattle Power Plants</h1>
-        <h2>oh my</h2> 
+       <h1> Seattle Power Plants</h1>
+        <h2></h2> 
     </header>
     <div id='map'></div>
     <footer>
         <p>Map authored by Anna Lee Espinosa Bard</p>
-        <p>One fuel source symbolized.</p>
-        <p>Stacked circles can tell a story.
+        <p>Hydropower plants within 400km of Seattle symbolized as proportional circles .</p>
+        <p>
         </p>
         <!-- add HTML here-->
     </footer>
@@ -75,8 +75,8 @@
 		});
         
         var map = L.map('map', {
-            center: [46,-118],
-            zoom: 5,
+            center: [46,-122],
+            zoom: 6,
         });
        
         var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', 
@@ -88,8 +88,12 @@
         });
         map.addLayer(tiles);
         
+         plants.features.sort(function(a,b) {
+			return b.properties.capacity - a.properties.capacity;
+		});
         console.log(plants);
-      
+    
+       var seattleCoords = L.latLng(47.6097,-122.3331);
         L.geoJson(plants, {
             pointToLayer: function(feature,latlng) {
                 return L.circleMarker(latlng, {
@@ -102,46 +106,65 @@
             },
             
             filter: function(feature,layer){
-                if( feature.properties.source["Hydro"]&&
-                feature.properties.source["Hydro"]<=500)
-                    return feature;
+                var plantLat= feature.geometry.coordinates[1];    
+                var plantLng= feature.geometry.coordinates[0];
+                     var plantCoords = L.latLng(plantLat,plantLng);
                 
-                
-                console.log(feature.geometry.coordinates);
-                var plantCoords = L.latLng(feature.geometry.coordinates) 
-                  //  console.log(plantCoords); 
-                var seattleCoords = L.latLng(47.6097, -122.3331);
-                  //  console.log(seattleCoords);
+                    //  console.log(plantCoords); 
+               
                 var distancePlants = plantCoords.distanceTo(seattleCoords)
-             //   console.log(distancePlants);
+                    // console.log(distancePlants);
                 
+                if( feature.properties.source["Hydro"]&&
+                feature.properties.source["Hydro"]<=500 &&
+                  distancePlants <= 400000)
+                    return feature;
                 },
-//           onEachFeature: function(feature,layer) {
+            
+//            onEachFeature: function(feature,layer) {
 //                var props = feature.properties;
-//                    console.log(props)
-//                    
-//                var content = "<b>"+props.plant_name+"</b><br>"props.capacity.toLocaleString()+" MW<br>";
-//               
+//                var content = "<b>"+props.plant_name+"</b><br>"+
+//                    props.capacity.toLocaleString()+" MW<br>";
 //                var source = props.source;
-//                    
-//                    for(var fuel in source){
-//                        content+="<b>"+fuel+"</b>: "+source[fuel].toLocaleString()+" MW<br>";
+//                for(var fuel in source){
+//                    content+="<b>"+fuel+"</b>: "+source[fuel].toLocaleString()+" MW<br>";
 //                }
 //                layer.bindPopup(content); 
-//        
-//        
-//                }
+//            
+           onEachFeature: function(feature,layer) {
+               
+               var props = feature.properties;  
+               var source = feature.properties.source;
+                    console.log(props);
+                    console.log(content);
+               
+               var content = "<b>"+props.plant_name+"</b><br>"+
+                    props.capacity.toLocaleString()+" MW<br><b>"+
+                    "<b>"+"This plant is "+ 23+"MW"+" from Seattle, WA.</b>";
+             
+               for(var fuel in source) {
+                   console.log(fuel,source[fuel]);
+                 content+="<b>"+fuel+"</b>: "+source[fuel].toLocaleString()+" MW<br>";
+             }
+               layer.bindPopup(content);
+               
+                layer.on('mouseover', function() {
+                   layer.setStyle({
+                       fillColor: 'yellow'
+                    });
+                });
+                layer.on('mouseout', function() {
+                    layer.setStyle({
+                        fillColor: 'blue'
+                    });
+                });
+                }
             }).addTo(map);
        
-       function getRadius(val) {
-            var radius = Math.sqrt(val/Math.PI);
-            return radius * 1.1; 
-        }
-      
-     
-                 
-       
-            
+            function getRadius(val) {
+                var radius = Math.sqrt(val/Math.PI);
+                return radius * 2; 
+                }
     </script>
     
 </body>
