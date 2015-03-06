@@ -114,6 +114,7 @@
                 for(var fuel in source){
                     content+="<b>"+fuel+"</b>: "+source[fuel].toLocaleString()+" MW<br>";
                 }
+                console.log(content);
                 layer.bindPopup(content); 
                 
                 layer.on('mouseover', function() {
