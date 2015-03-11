@@ -45,8 +45,6 @@
             color: #001323;
         }
         /* Additional style rules go here! */
-        
-
     </style>
 </head>
 
@@ -61,62 +59,60 @@
     <footer>
         <p>Map authored by Anna Lee Espinosa Bard</p>
         <p>Red Iguana goes West.</p>
-        <p>You are never more than a country mile away from a red iguana. 
+        <p>You are never more than a country mile away from a red iguana.
         </p>
     </footer>
 
     <script>
-        
- 
-    var map = L.map('map', {
-        center: [40,-94],
-        zoom: 4,
-        minZoom: 4,
-        maxZoom: 12
-    });
-        
-      var Thunderforest_Outdoors =                                          L.tileLayer('http://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png', {
-	attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-});
-        
-     map.addLayer(Thunderforest_Outdoors);  
-        
-    var redIguana = L.latLng(40.7718,-111.9124);
-        // console.log(redIguana);
-        //console.log(L.latLng);
-    var otherCity = [36.1667,-86.7833]    
-    map.on('click', function(e){
-        
-        var otherCity = [36.1667,-86.7833];
-        var distance = redIguana.distanceTo(otherCity);
-        
-            console.log(otherCity);
-         
-            console.log("Nashville is ",distance," meters from Red Iguana");
-        
-        var bounds = map.getBounds(); 
-        var sWestYall = bounds.getSouthWest();
-        
-            console.log(sWestYall.lat, sWestYall.lng);
-        
-        var countryMile = redIguana.distanceTo(sWestYall);
+        var map = L.map('map', {
+            center: [40, -94],
+            zoom: 4,
+            minZoom: 4,
+            maxZoom: 12
+        });
+
+        var Thunderforest_Outdoors = L.tileLayer('http://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        });
+
+        map.addLayer(Thunderforest_Outdoors);
+
+        var redIguana = L.latLng(40.7718, -111.9124);
+         // console.log(redIguana);
+         //console.log(L.latLng);
+        var otherCity = [36.1667, -86.7833]
+         map.on('click', function (e) {
+             
+            var otherCity = [36.1667, -86.7833];
+            var clickCoords = e.latlng;
+            var distance = redIguana.distanceTo(clickCoords);
+
+            console.log("You clicked " + distance + " meters from Red Iguana");
             
+             // optional: recenter map on click
+             map.setView(clickCoords, 6)
+            
+
+            var bounds = map.getBounds();
+            var sWestYall = bounds.getSouthWest();
+
+            console.log(sWestYall.lat, sWestYall.lng);
+
+            var countryMile = redIguana.distanceTo(sWestYall);
+
             console.log(countryMile);
-    });
-            var popup = "<b>"+redIguana+"</b><br>"
-                                +"<b>Density</b>:";
+        });
+        var popup = "<b>" + "Red Iguana" + "</b>"
 
-                L.marker(redIguana).addTo(map)
-                    .bindPopup(popup);    
-        
-        var popup = "<b>"+otherCity+"</b><br>"
-                                +"<b>Density</b>:";
+        L.marker(redIguana).addTo(map)
+            .bindPopup(popup);
 
-                L.marker(otherCity).addTo(map)
-                    .bindPopup(popup); 
-        
+        var popup = "<b>" + "Nashville" + "</b>"
+
+        L.marker(otherCity).addTo(map)
+            .bindPopup(popup);
     </script>
-    
+
 </body>
 
 </html>
