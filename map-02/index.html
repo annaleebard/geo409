@@ -122,7 +122,8 @@
                 },
                         
            onEachFeature: function(feature,layer) {
-               
+               // distancePlants doesn't exist here anymore because of variable scope. redefine it.
+               var distancePlants = seattleCoords.distanceTo(L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]))/1000;
                var props = feature.properties;  
                var source = feature.properties.source;
                     console.log(props);
