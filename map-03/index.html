@@ -148,19 +148,22 @@
                    layer.setStyle({
                         stroke: true,
                         fill: true  
-                   });  
-                   layer.bindPopup("Name: <br>"+"Fuel: <br>"+"This plant is <b>"+distance.toLocaleString()+ 
-                                   "km</b><br> from the click point.");
+                   }); 
+                var popupInfo = layer.feature.properties.plant_name
+                    console.log(layer.feature.properties.fuel_source[1]);
+                    var source = layer.feature.properties.fuel_source;
+                        for ( var fuel in source) {
+                          fuel;
+                        }
+                   layer.bindPopup("<b>Name: </b>"+ popupInfo +"<br><b>Fuel: </b>" +fuel+"<br>This plant is <b>"+distance.toLocaleString()+ "km</b><br> from the click point.");
                     }
                  });
               }
           });
-       var popupContent = geoJsonLayers[layer]
-       for (var layer in layerInfo){
-           console.log(popupContent);
-       };
-           
-           
+             
+
+        
+        
      map.on('dblclick', function(e){
            for (var layer in geoJsonLayers){
   
@@ -179,8 +182,14 @@
                         stroke: true,
                         fill: true  
                    });  
-                   layer.bindPopup("Name: <br>"+"Fuel: <br>"+"This plant is <b>"+distance.toLocaleString()+ 
-                                   "km</b><br> from the click point.");
+                        
+                    var popupInfo = layer.feature.properties.plant_name
+
+                    var source = layer.feature.properties.fuel_source;
+                        for ( var fuel in source) {
+                          fuel;
+                        }
+                    layer.bindPopup("<b>Name: </b>"+ popupInfo +"<br><b>Fuel: </b>" +fuel+"<br>This plant is <b>"+distance.toLocaleString()+ "km</b><br> from the click point.");
                     }
                  });
               }
@@ -188,10 +197,10 @@
        
         
            
-        //disable double click//
-           map.doubleClickZoom.disable();
-        
-        
+     //disable double click//
+               map.doubleClickZoom.disable();
+
+
     </script>
     
 </body>
