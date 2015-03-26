@@ -114,7 +114,7 @@
      $.getJSON("ky_counties_housing.json", function(data) {
         // the data loaded from the file is accessible here!
         console.log(data);
-         L.geoJson(data, {
+        dataLayer = L.geoJson(data, {
          style: function(feature) {
             return {
                     color: '#dddddd',
@@ -124,7 +124,7 @@
                 };
         }    
     }).addTo(map);
-      
+      drawMap();
     });
        
 
