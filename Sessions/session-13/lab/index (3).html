@@ -5,13 +5,10 @@
     <meta charset=utf-8 />
     <title>Module 13 Lab Template</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-
-   
     <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <script src="simple_statistics.js"></script>
 
-    
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
     <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 
@@ -51,7 +48,7 @@
             color: #001323;
         }
         
-        legend {
+             .legend {
         padding: 6px 8px;
         font-size: 1em;
         background: rgba(255,255,255,0.8);
@@ -94,8 +91,13 @@
         </p>
     </footer>
 
+    
+    
+    
+    
     <script>
-        jQuery("h1").html("Housing Ownership in Kentucky");
+    
+        
         
     var options = {
         center: [37.8, -85.8],
@@ -106,15 +108,16 @@
         zoomControl: false
     }
     var map = L.map('map', options);
-        
+        // WRITE YOUR CODE JAVASCRIPT CODE HERE
+    
     var dataLayer,
         attribute = "OWNED_MORT",
-        norm = "OWNER";
+        norm = "OWNER";    
         
-     $.getJSON("ky_counties_housing.json", function(data) {
+    $.getJSON("ky_counties_housing.json", function(data) {
         // the data loaded from the file is accessible here!
-        console.log(data);
-         L.geoJson(data, {
+//        console.log(data);
+        dataLayer = L.geoJson(data, {
          style: function(feature) {
             return {
                     color: '#dddddd',
@@ -122,26 +125,22 @@
                     fillOpacity: 1,
                     fillColor: '#1f78b4'
                 };
-        }    
+        }          
     }).addTo(map);
-      
+    drawMap();
     });
-       
-
-
-      function drawMap() {
-
-      var breaks = getClassBreaks();
-          
-         dataLayer.eachLayer(function(layer) {
-            layer.setStyle({
-                fillColor: getColor(layer.feature.properties[attribute]/layer.feature.properties[norm], breaks)
-            });
+    
+    function drawMap() {
+        var breaks = getClassBreaks();
+    dataLayer.eachLayer(function(layer) {
+        layer.setStyle({
+            fillColor: getColor(layer.feature.properties[attribute]/layer.feature.properties[norm], breaks)
         });
-            drawLegend(breaks);
-        }
-        
-         function getColor(d, breaks) {
+    });
+        drawLegend(breaks);
+    }
+    
+    function getColor(d, breaks) {
         if(d <= breaks[1]) {
             return '#f1eef6';
         } else if(d <= breaks[2]) {
@@ -153,46 +152,39 @@
         } else if(d <= breaks[5]) {
             return '#045a8d'
         }
-    }
+    }    
         
         
     function getClassBreaks() {
-        
-        var values = [];
-            dataLayer.eachLayer(function(layer) {
-        var value = layer.feature.properties[attribute]/layer.feature.properties[norm];
-            values.push(value);
-                console.og(value);
-        }); 
-       
-        var breaks = ss.jenks(values, 5);
-        console.log(breaks)
-        return breaks;
+    var values = [];
+    dataLayer.eachLayer(function(layer) {
+        var value =     layer.feature.properties[attribute]/layer.feature.properties[norm];
+        values.push(value);   
+    });
+    var breaks = ss.jenks(values, 5);
+    console.log(breaks)
+    return breaks;
+//    console.log(values);
         // code here to determine range and establish classification breaks
-    } 
-         
-      function drawLegend(breaks){
-
+    }            
+    // data is not accessible here!
+    
+    function drawLegend(breaks){
         // create a new Leaflet control object, and position it top left
         var legend = L.control({position: 'topleft'});
-
         // when the legend is added to the map
         legend.onAdd = function (map) {
-
             // create a new HTML <div> element and give it a class name of "legend"
             var div = L.DomUtil.create('div', 'legend');
-
             // first append an <h3> tag to the div holding the current attribute 
             // and norm values (i.e., the mapped phenenomena) and begin an
             // un-ordered list (<ul>)
             div.innerHTML = "<h3>" + attribute + " per " + norm + "</h3><ul>"; 
-
             // for each of our breaks
             for (var i = 0; i < breaks.length-1; i++) {
                 // determine the color associated with each break value,
                 // including the lower range value
                 var color = getColor(breaks[i + 1], breaks);
-
                 // concatenate a list item (<li>) to the div containing 
                 // an <i> tag styled with the color and include the range values
                 // of that particular classification group
@@ -201,24 +193,19 @@
                     (breaks[i]*100).toLocaleString() + ' &mdash; ' + 
                     (breaks[i + 1]*100).toLocaleString() + '</li>';
             }
-
             // close the un-ordered list
             div.innerHTML += "</ul>"
-
             // return the populated div to be added to the map
             return div;
         };
-
         // add the legend to the map
         legend.addTo(map);
-    }    
-    // data is not accessible here!
+    }
         
-   
+    
         
-       
-        // WRITE YOUR CODE JAVASCRIPT CODE HERE
-
+        
+        
     </script>
     
 </body>
