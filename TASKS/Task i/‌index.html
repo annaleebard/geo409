@@ -3,7 +3,7 @@
 
 <head>
     <meta charset=utf-8 />
-    <title>Module 13 Lab Template</title>
+    <title>Kentucky Housing</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
@@ -84,15 +84,15 @@
 <body>
     <header>
         <h1>Kentucky Housing</h1>
-        <h2>Map Subtitle</h2>
+        <h2>Homes Owned Free</h2>
     </header>
 
     <div id='map'></div>
 
     <footer>
         <p>Map authored by Anna Lee Bard</p>
-        <p>Additional information about the data and map goes here.</p>
-        <p>Choropleth map representing features of housing.
+        <p></p>
+        <p>Choropleth map representing number of homes owned free without mortgage per county.
         </p>
     </footer>
 
@@ -113,7 +113,7 @@
         // WRITE YOUR CODE JAVASCRIPT CODE HERE
 
         var dataLayer,
-            attribute = "OWNED_MORT",
+            attribute = "OWNED_FREE",
             norm = "OWNER";
 
         $.getJSON("ky_counties_housing.json", function (data) {
