@@ -20,14 +20,17 @@
             font-family: Lato, sans-serif;
             color: #0D0000;
         }
+        
         header {
             padding: 6px 10%;
         }
+        
         h1 {
             display: inline-block;
             margin-right: 20px;
             color: #001323;
         }
+        
         h2 {
             display: inline-block;
             color: #001323;
@@ -77,7 +80,6 @@
             float: left;
             margin-right: 10px;
         }
-       
     </style>
 </head>
 
@@ -126,15 +128,18 @@
                         weight: 1,
                         fillOpacity: 1,
                         fillColor: '#1f78b4',
-                        
+
                     };
                 },
-                
-                
-                
-                
+
+
+
+
             }).addTo(map);
-            
+
+            console.log(data);
+            console.log(dataLayer);
+
             drawMap();
         });
 
@@ -143,20 +148,22 @@
             dataLayer.eachLayer(function (layer) {
                 layer.setStyle({
                     fillColor: getColor(layer.feature.properties[attribute] / layer.feature.properties[norm], breaks),
-                    
-                   
+
+
                 });
-                console.log(layer.feature.properties);
+                // console.log(layer.feature.properties);
                 var name = layer.feature.properties.NAME;
                 var free = layer.feature.properties.OWNED_FREE;
-                    
-                    layer.bindPopup("<b>"+name.toLocaleString()+" county</b><br>"+"<b>"+free.toLocaleString()+" owned free</b>");
-                
-                
+
+                layer.bindPopup("<b>" + name.toLocaleString() + " county</b><br>" + "<b>" + free.toLocaleString() + " owned free</b>");
+
+
             });
             drawLegend(breaks);
         }
 
+        
+        
         function getColor(d, breaks) {
             if (d <= breaks[1]) {
                 return '#f1eef6';
@@ -177,11 +184,18 @@
                 dataLayer.eachLayer(function (layer) {
                     var value = layer.feature.properties[attribute] / layer.feature.properties[norm];
                     values.push(value);
-                    //console.log(value);
+                    console.log(value);
                 });
+
+
+
+
+
                 var breaks = ss.jenks(values, 5);
                 console.log(breaks)
                 return breaks;
+            
+            
                 //    console.log(values);
                 // code here to determine range and establish classification breaks
             }
