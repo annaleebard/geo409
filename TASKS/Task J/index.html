@@ -75,15 +75,6 @@
         .leaflet-popup-content {
             max-width: 160px;   
         }
-        .info {
-        padding: 6px 8px;
-        font-size: 1em;
-        background: rgba(255,255,255,0.8);
-        box-shadow: 0 0 15px rgba(0,0,0,0.2);
-        border-radius: 5px;
-        text-align: right;   
-    }
-        
         
     </style>
 </head>
@@ -94,18 +85,22 @@
         <h2>Map Subtitle</h2>
     </header>
 
-    <div id='ui-controls'>
-     <label>Choose a data attribute:<br>
-        <select name="occupied">
-            <option value="OWNED_MORT" selected>owned with mortgage</option>
-            <option value="OWNED_FREE">owned free and clear</option> 
-            <option value="RENTER">rented</option>
-        </select>
-        </label>
-    </div>
+     <div id='ui-controls'> 
+        <label>Choose a data attribute: 
+            <br>
+            
+            <select name="vacant"> //presents a menu of options 
+                <option value="VACANT_SOL" selected>vacant properties sold not occupied</option>
+                <option value="VACANT-REN">vacant properties that are rented</option>
+                <option value="VACANT_F_1">vacant properties for sale </option>
+            </select>
+         </label>
+         </div>
     
     <div id='map'></div>
 
+   
+    
     <footer>
         <p>Map authored by YOUR NAME</p>
         <p>Additional information about the data and map goes here.</p>
@@ -114,7 +109,7 @@
     </footer>
 
     <script>
-        
+        //set up options for map centered on ky and not draggable or zoomable
         var options = {
             center: [38.2, -85.8],
             zoom: 7.4,
@@ -123,18 +118,22 @@
             dragging: false,
             zoomControl: false
         }
+        
+        //create leaflet map pass options assign to variable
         var map = L.map('map', options);
         
-        // Begin module 13 code here
-        
+        //LETS DECLARE GLOBAL VARIABLES!!!
         var dataLayer,
-            attribute = "OWNED_MORT", //declare global variable
-            norm = "OCCUPIED";
+            attribute = "VACANT", //CHANGE ATTRIBUTE TO VACANT as initial varible to store as attribute     
+            norm = "TOTAL"; //normalize with total properties instead of occupied
         
+        // QJuery AJAX request to load external GEoJSON file
         $.getJSON("ky_counties_housing.json", function(data) {
             
+            
+            // create Leaflet GeoJson layer with GeoJSON data and assign to global variable 
             dataLayer = L.geoJson(data, {
-                 style: function(feature) {
+                 style: function(feature) { //style GeoJSON 
                     return {
                             color: '#dddddd',
                             weight: 2,
@@ -142,31 +141,65 @@
                             fillColor: '#1f78b4'
                         };
                 }          
-            }).addTo(map);
+            }).addTo(map); //add leflet GeoJson to map
             
-            drawMap();
             
-            ui();
+            
+            drawMap(); //call function to draw the layer to the map 
+            //(without this we just get boring counties as one color)
+            
+            ui(); //call function  to place ui-controls on map and add event listeners
               
         });
         
+       
+        
+      function ui() { //this function will place ui-controls on leaflet map and add event listeners 
+            
+            // create variable named dataView
+            //assign dataView to L.control() 
+            //pass as option assign to topleft
+            var dataView = L.control({position: 'topleft'});
+            
+            dataView.onAdd = function(map) {
+                
+
+
+            var controls = L.DomUtil.get('ui-controls');
+         //L.DomUtil().get() method to select the ui-controls div we've already created 
+                
+            return controls; //and return this to the Leaflet Control object
+                
+        }
+            
+        dataView.addTo(map);//add to map
+    
+        }
+
         function drawMap() {
             
+            // call function to determine class breaks and assign return value to variable
             var breaks = getClassBreaks();
 
+            // loop through each layer of the GeoJson layer
             dataLayer.eachLayer(function(layer) {
                 
+                // create shorthand variable to access layer properties
                 var props = layer.feature.properties;
                 
+                // change the fill color of the layer using the layer's attribute values
                 layer.setStyle({
                     fillColor: getColor(props[attribute]/
                                         props[norm], breaks)
                 });
+                
+                // bind a popup to the layer, populated with calculated layer attribtue values
                 layer.bindPopup("<b>"+props["NAME"]+" County</b></br>" +
                                 attribute + ": " +
                                 ((props[attribute]/props[norm])*100).toLocaleString());  
             });
             
+             // call the function to draw the legend, sending the breaks array as arugment
             drawLegend(breaks);
         }
         
@@ -217,114 +250,22 @@
                 }
                 div.innerHTML += "</ul>"
                 return div;
-                
-                    
+                      
             };
 
             legend.addTo(map);
         }
-       function drawLegend() {
-
-        var legend = L.control({position: 'topleft'});
-
-        legend.onAdd = function(map) {
-
-            var div = L.DomUtil.create('div', 'legend');
-
-            return div;
-
-        };
-
-        legend.addTo(map);
-    }
-         function updateLegend(breaks) {
-
-        var legend = $('.legend').html("<h3>" + attribute + "</h3><ul>"); 
-
-        for (var i = 0; i < breaks.length-1; i++) {
-            var color = getColor(breaks[i + 1], breaks);
-            legend.append('<li><span style="background:' + color + '"></span> ' +
-                (breaks[i]*100).toLocaleString() + ' &mdash; ' + 
-                (breaks[i + 1]*100).toLocaleString() + '</li>');
-        }
-        legend.append("</ul>");
-    }
         
-         $.getJSON("ky_counties_housing.json", function(data) {
+          
+   $('select[name="vacant"]').change(function() {
 
-        dataLayer = L.geoJson(data, {
-                style: function(feature) {
-                return {
-                        color: '#dddddd',
-                        weight: 2,
-                        fillOpacity: 1,
-                        fillColor: '#1f78b4'
-                    };
-            }          
-        }).addTo(map);
-
-        ui();
-        drawLegend();
-        drawMap();
+        console.log(this);
 
     });
-        
-        
-        function ui() { //this function will place ui-controls on leaflet map and add event listeners 
-            
-            // create variable named dataView
-            //assign dataView to L.control() 
-            //pass as option assign to topleft
-            var dataView = L.control({position: 'topleft'});
-            
-            dataView.onAdd = function(map) {
-                
 
-
-            var controls = L.DomUtil.get('ui-controls');
-         //L.DomUtil().get() method to select the ui-controls div we've already created 
-                
-            return controls; //and return this to the Leaflet Control object
-                
-        }
-            
-        dataView.addTo(map);//add to map
     
-        }
+
         
-   
-        $('select[name="occupied"]').change(function() {
-            //use JQuery select method and val() method to return attribute value of currently selected option
-        console.log($(this).val());
-
-        })
-          $('select[name="occupied"]').change(function() {
-
-            attribute = $(this).val();
-
-        })   
-          
-           $('select[name="occupied"]').change(function() {
-
-        attribute = $(this).val();
-        
-
-    })
-
-           
-           function drawInfo() {
-
-        var info = L.control({position: 'topright'});
-
-        info.onAdd = function(map) {
-
-            var div = L.DomUtil.create('div', 'info');
-
-            return div;  
-
-        }
-        info.addTo(map);
-    }
     </script>
     
 </body>

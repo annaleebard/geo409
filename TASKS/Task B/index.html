@@ -1,0 +1,134 @@
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Map Page </title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+
+    <style>
+        a:link {color: #bdc5cb; background-color:transparent; font-weight: bold}
+        body {
+            margin: 0;
+            padding: 0;
+            background: whitesmoke;
+            font-family: Lato, sans-serif;
+            color: #0D0000;
+        }
+        header {
+            padding: 5px 10%;
+        }
+        h1 {
+            display: inline-block;
+            margin-right: 20px;
+            color: #001323;
+        }
+        h2 {
+            display: inline-block;
+            color: #7b7f83;
+        }
+        h3 {
+            display: inline-block;
+            color: #7b7f83;
+            font-size: 150%;
+            margin-bottom:5px;
+            
+        }
+        h4 {
+            display: inline-block;
+            color: #7b7f83;
+            font-size: 150%;
+            margin-bottom: 5px;
+        }
+        #map {
+            width: 80%;
+            height: 440px;
+            margin: 5px auto;
+        }
+        footer {
+            padding: 6px 10%;
+            width: 80%;
+        }
+        p {
+            font-size: 0.9em;
+            color: #001323;
+        }
+        /* visited link */
+        a:visited{
+            color:7b7f83;
+        }
+        /* mouse over link */
+        a:hover {
+            color: #ac2626
+        }
+        p.author-info {
+            font-size: 0.8em;
+            text-align: right;
+            font-style: italic;
+            
+        /* I've got style*/
+        }
+           p.italic { font-style: italic;
+        }
+        /* Additional style rules go here! */
+        p.small {
+            line-height: 1.1;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Lexington: Home of Kick Ass Kentuckians </h1>
+        <!- seriously this is how you comment...guess so ->
+        <h2>KY est. 1792</h2>
+    </header>
+
+    <div id='map'></div>
+
+    <footer>
+        <p class='author-info'>Map authored by Anna Lee Bard</p>
+        <h3>About This map</h3>
+        <p class="small"> The most amazing shortest paragraph ever. </p>
+        <h4>Data Sources</h4>
+        <p></p>
+        <a href="https://github.com/annaleebard/geo409">Click here</a> to visit my Github account.</a>
+        <p> My Old Kentucky Home, written by: Stephen Foster</p>
+        <p class="small">The sun shines bright on my old Kentucky home, 'Tis summer, the people are gay;
+        The corn-top's ripe and the meadow's in the bloom
+        While the birds make music all the day.
+        
+        The young folks roll on the little cabin floor,
+        All merry, all happy and bright;
+        By 'n' by hard times comes a knockin at the door,
+        Then My Old Kentucky Home, good night!</p>
+    </footer>
+
+    <script>
+        var map;
+        var targetDiv = 'map';
+         //Amsterdam Coordinates: [52.3667,4.9000]
+         //Lexington Coordinates: [38.0489,-84.5025]
+        var options = {
+            center: [38.024970,-84.497879],
+            zoom: 12
+        }
+        map = L.map(targetDiv, options);
+
+        var tiles = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-hillshading/{z}/{x}/{y}.png', {
+            attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
+            subdomains: '0123',
+            minZoom: 2,
+            maxZoom: 18
+        });
+
+        map.addLayer(tiles);
+    </script>
+    
+</body>
+
+</html>
