@@ -217,10 +217,18 @@
                                 layer.feature.properties[norm])*100).toLocaleString());
             
                 layer.on('mouseover',function() {
+                    
                 updateInfo(this);
+                    
+                layer.setStyle({color: 'red'}).bringToFront();  
+                
                 
             });
-                
+                layer.on('mouseout', function() {
+                    
+                    // reset the layer style to its original stroke color
+                    layer.setStyle({color: '#dddddd'});
+                });
                 dataLayer.on('mouseover', function() { //when mouse over the info box shows
                     $(".info").show();
                });
