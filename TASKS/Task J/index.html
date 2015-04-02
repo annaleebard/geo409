@@ -75,13 +75,24 @@
         .leaflet-popup-content {
             max-width: 160px;   
         }
+        .info {
+            padding: 6px 8px;
+            font-size: 1em;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+            text-align: right;   
+        }
+        .info h3 {
+            margin:0;
+        }
         
     </style>
 </head>
 
 <body>
     <header>
-        <h1>Map Title</h1>
+        <h1>Vacant Housing Units</h1>
         <h2>Map Subtitle</h2>
     </header>
 
@@ -123,6 +134,13 @@
         var map = L.map('map', options);
         
         //LETS DECLARE GLOBAL VARIABLES!!!
+        
+        var labels = { //create object to associate the property names with meaningufl labels 
+            "VACANT": "unoccupied units",
+            "VACANT_SOL": "% unoccupied housing units sold",
+            "VACANT_REN": "% unoccupied housing units rented",
+            "VACANT_FO2": "% unoccupied housing units for sale"   
+    }
         var dataLayer,
             attribute = "VACANT_SOL", //CHANGE ATTRIBUTE TO VACANT_SOL as initial varible to store as attribute     
             norm = "VACANT"; //normalize with total properties instead of occupied
@@ -133,7 +151,7 @@
             
             // create Leaflet GeoJson layer with GeoJSON data and assign to global variable 
             dataLayer = L.geoJson(data, {
-                 style: function(feature) { //style GeoJSON 
+                 style: function(feature) { //style GeoJSON features
                     return {
                             color: '#dddddd',
                             weight: 2,
@@ -149,12 +167,13 @@
             drawLegend(); //call drawLegend function   
             drawMap(); //call function to draw the layer to the map 
             //(without this we just get boring counties as one color)
-            
+            drawInfo(); //adds infobox 
         });
         
        
         
-      function ui() { //this function will place ui-controls on leaflet map and add event listeners 
+      function ui() { 
+            //this function will place ui-controls on leaflet map and add event listeners 
             
             // create variable named dataView
             //assign dataView to L.control() 
@@ -175,48 +194,92 @@
     
         }
 
-        function drawMap() {
+        function drawMap() { 
             
-            // call function to determine class breaks and assign return value to variable
+                // call function to determine class breaks and assign return value to variable
             var breaks = getClassBreaks();
 
-            // loop through each layer of the GeoJson layer
+                // loop through each layer of the GeoJson layer
             dataLayer.eachLayer(function(layer) {
-                
-                // create shorthand variable to access layer properties
-                var props = layer.feature.properties;
+                 // create shorthand variable to access layer properties
+            var props = layer.feature.properties;
                 
                 // change the fill color of the layer using the layer's attribute values
-                layer.setStyle({
+            layer.setStyle({
                     fillColor: getColor(props[attribute]/
                                         props[norm], breaks)
                 });
                 
                 // bind a popup to the layer, populated with calculated layer attribtue values
-                layer.bindPopup("<b>"+props["NAME"]+" County</b></br>" +
-                                attribute + ": " +
-                                ((props[attribute]/props[norm])*100).toLocaleString());  
-            });
+                //modify popup to include global variable labels
+            layer.bindPopup("<b>"+layer.feature.properties["NAME"]+" County</b></br>" +
+                        labels[attribute] + ": " + ((layer.feature.properties[attribute]/
+                                layer.feature.properties[norm])*100).toLocaleString());
             
+                layer.on('mouseover',function() {
+                updateInfo(this);
+                
+            });
+                
+                dataLayer.on('mouseover', function() { //when mouse over the info box shows
+                    $(".info").show();
+               });
+                dataLayer.on('mouseout', function() { //when moused out it hides
+                    $(".info").hide();    
+                });
+             });
              // call the function to draw the legend, sending the breaks array as arugment
-            drawLegend(breaks);
+            updateLegend(breaks);
         }
+                                
+    
+        
+        function drawInfo() {
+
+            var info = L.control({position: 'topright'});
+
+            info.onAdd = function(map) {
+
+            var div = L.DomUtil.create('div', 'info');
+
+            return div;  
+
+        }
+        info.addTo(map);
+    }
+        
+        function updateInfo(layer) {
+
+        var props = layer.feature.properties;
+
+        var html = "<h3>"+props['NAME']+" County</h3>"+
+                    "total # not occupied: <b>"+ props["VACANT"]+"</b><br>"+
+                    "# vacant properties sold: <b>"+ props["VACANT_SOL"]+"</b><br>"+
+                    "# vacant properties that are rented: <b>"+ props["VACANT_REN"]+"</b><br>"+
+                    "# vacant properties for sale: <b>"+ props["VACANT_FO2"]+"</b>"
+
+        $(".info").html(html);
+    }
         
         function getClassBreaks() {
             
-            var values = [];
-            
+            var values = []; //create empty array
+            //loop through layers
             dataLayer.eachLayer(function(layer) {
                 var value = layer.feature.properties[attribute]/layer.feature.properties[norm];
-                values.push(value);   
+                values.push(value);   //push normalized value into the array we created above
             }); 
             
-            var breaks = ss.jenks(values, 5);
-            return breaks;
+            var breaks = ss.jenks(values, 5); //ss creates 5 class array from the arary of data values
+            return breaks; 
             
         }   
         
         function getColor(d, breaks) {
+             // function accepts a single normalized data attribute value 
+            // and uses a series of conditional statements to determine which 
+            // which color value to return to return to the function caller
+            
             if(d <= breaks[1]) {
                 return '#f1eef6';
             } else if(d <= breaks[2]) {
@@ -231,43 +294,52 @@
         }
         
         function drawLegend() {
+                //create legend and leave it empty removed breaks from this function
 
-        var legend = L.control({position: 'topleft'});
+            var legend = L.control({position: 'topleft'}); //create control object put in top left corner
+                
 
-        legend.onAdd = function(map) {
+            legend.onAdd = function(map) { //add legend to map
 
-            var div = L.DomUtil.create('div', 'legend');
+                var div = L.DomUtil.create('div', 'legend');
+                    //create HTML <div> element and give it a class name "legend"
 
-            return div;
+                return div; //return the div to be added to map
 
         };
 
         legend.addTo(map);
-    }
-        
-         function updateLegend(breaks) {
-
-        var legend = $('.legend').html("<h3>" + attribute + "</h3><ul>"); 
-            
-        for (var i = 0; i < breaks.length-1; i++) {
-            var color = getColor(breaks[i + 1], breaks);
-            legend.append('<li><span style="background:' + color + '"></span> ' +
-                (breaks[i]*100).toLocaleString() + ' &mdash; ' + 
-                (breaks[i + 1]*100).toLocaleString() + '</li>');
         }
-        legend.append("</ul>");
-    }
+        
+        
+         //create function that selects legend and populates it with info
+        
+        function updateLegend(breaks) {
+            //create function and pass breaks since we took it out in the stripped draw Legend function
+            
+            var legend = $('.legend').html("<h3>" + labels[attribute] + "</h3><ul>"); 
+                //selects already created legend and uses JQuery method.html() to populate it with name of our data attribute
+            for (var i = 0; i < breaks.length-1; i++) { 
+                var color = getColor(breaks[i + 1], breaks);
+                legend.append('<li><span style="background:' + color + '"></span> ' +
+                    (breaks[i]*100).toLocaleString() + ' &mdash; ' + 
+                    (breaks[i + 1]*100).toLocaleString() + '</li>');
+                //for loop uses JQuery method to insert the content for each class break into the existing legend
+            }
+            legend.append("</ul>"); //attaches new content to legend and close our unordered list
+        }
 
-          
-   $('select[name="vacant"]').change(function() {
-       
-    attribute = $(this).val(); //REASSIGN VALUE OF attribute TO CURRENT USER SELECTION
-//     console.log(attribute);
-       drawMap(); //call drawMap function LOOPS THROUGH ALL LAYERS AND ASSIGNS A COLOR BASED ON SELECTED ATTRIBUTE
 
-    });
+           $('select[name="vacant"]').change(function() {
+               //change() method used to "listen" for user changes in the form 
 
-    
+            attribute = $(this).val(); //REASSIGN VALUE OF attribute TO CURRENT USER SELECTION
+                        //    console.log(attribute);
+            drawMap(); //call drawMap function connects user interface to our code and reassigns color based upon the user selection
+
+        });
+
+   
 
         
     </script>
