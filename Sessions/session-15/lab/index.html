@@ -85,12 +85,38 @@
         float: left;
         margin-right: 10px;
     }
+           #ui-controls {
+        width: 176px;   
+        padding: 8px 15px 8px 15px;
+        background: rgba(75,75,75,0.8);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px; 
+        color: whitesmoke;
+    }
+    .year-slider {
+        width: 100%;
+    }
+         #ui-controls .min {
+        float: left;   
+    }
+    #ui-controls .max {
+        float: right;
+    }
     </style>
 </head>
 
 <body>
     <h1>US Unemployment Rates</h1>
     
+    <div id="ui-controls">
+       
+    
+     <label><span class="min">2001</span><span class="max">2013</span>
+        <input type="range" min = "2001", max= "2013", 
+               value = "2001", step= "1", class="year-slider"></input>
+    </label>
+     </div>
+
     <div id = 'ui-controls'>
         <label> Choose something: <br>
         <select> name = "unemployment">
@@ -166,9 +192,9 @@
                 dataLayer = L.geoJson(states, {
                     style: function(feature) {
                     return{
-                        color: '#dddded', //style from previous lab
+                        color: '#74c476', //style from previous lab
                         weight: 2,
-                        fillOpacity: .5,
+                        fillOpacity: 1,
                         fillColor: '#cc6633'
                     };
                     }
@@ -186,12 +212,16 @@
         
         
          $('select[name="unemployment"]').change(function() {
-
-        attribute = $(this).val();
+             attribute = $(this).val();
              drawMap();
 
     })      
         
+        $(".year-slider")
+        .on('input change', function() {
+            attribute = $(this).val();
+            drawMap();
+        });
 //------------------------------------------------
         
          // function to process/bind data below
@@ -281,17 +311,17 @@
             // function to get the color value
             function getColor(d, breaks) {
                 if(d <= breaks[1]) {
-                    return '#f1eef6';
+                    return '#fee5d9';
                 } else if(d <= breaks[2]) {
-                    return '#bdc9e1';
+                    return '#fcae91';
                 } else if(d <= breaks[3]) {
-                    return '#74a9cf';
+                    return '#fb6a4a';
                 } else if(d <= breaks[4]) {
-                    return '#2b8cbe'
+                    return '#de2d26'
                 } else if(d <= breaks[5]) {
-                    return '#045a8d'
+                    return '#a50f15'
                 }
-                
+               
             }
         
  //----------------------------------------------------           
@@ -332,10 +362,32 @@
             legend.append("</ul>");
     }
         
-        
+//----------------------------------------------------         
         
         // function to create the range slider
+ // create a Leaflet control object and store a reference to it in a variable
+    var sliderControl = L.control({ position: 'bottomleft'} );
 
+    // when we add this control object to the map
+    sliderControl.onAdd = function(map) {
+
+        // select an existing DOM element with an id of "ui-controls"
+        var slider = L.DomUtil.get("ui-controls");
+
+            // when the user clicks on the slider element
+            L.DomEvent.addListener(slider, 'mousedown', function(e) { 
+
+                // prevent the click event from bubbling up to the map
+                L.DomEvent.stopPropagation(e); 
+
+            });
+
+        // return the slider from the onAdd method
+        return slider;
+    }
+
+    // add the control object containing our slider element to the map
+    sliderControl.addTo(map);
     </script>
     
 </body>
