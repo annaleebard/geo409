@@ -59,12 +59,61 @@
         top: 0;
         bottom: 0;
     }
+          .legend {
+        padding: 6px 8px;
+        font-size: 1em;
+        background: rgba(75,75,75,0.8);
+        color: whitesmoke;
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px;
+        width: 160px;
+    }
+    .legend h3 {
+        font-size: 1.1em;
+        font-weight: bold;
+        line-height: 1em;
+        color: whitesmoke;
+        margin: 0;
+    }
+    .legend li {
+        list-style-type: none;
+        height: 22px;
+    }
+    .legend span {
+        width: 30px;
+        height: 20px;
+        float: left;
+        margin-right: 10px;
+    }
     </style>
 </head>
 
 <body>
     <h1>US Unemployment Rates</h1>
+    
+    <div id = 'ui-controls'>
+        <label> Choose something: <br>
+        <select> name = "unemployment">
+            <option value="2001" selected>2001</option>
+            <option value="2002">2002</option>   
+            <option value="2003">2003</option>
+            <option value="2004">2004</option>
+            <option value="2005">2005</option>
+            <option value="2006">2006</option>
+            <option value="2007">2007</option>
+            <option value="2008">2008</option>   
+            <option value="2009">2009</option>
+            <option value="2010">2010</option>
+            <option value="2011">2011</option>
+            <option value="2012">2012</option>
+            <option value="2013">2013</option>
+        </select>
+        </label>
+    </div>
+    
     <div id='map'></div>
+    
+    
     
     <script>
         
@@ -85,30 +134,17 @@
 	       maxZoom: 20,
 	       ext: 'png'
 });
-        // load map tiles and add to map
+      // load map tiles and add to map
       map.addLayer(tiles); 
         
         
-          // declare global variables
-        var dataLayer; //declare global variable
-            attribute =   // assign initial variable to store data attribute/ reference current data or year we are looking at
-        
+        // declare global variables
+        var dataLayer, //declare global variable
+            attribute =  2001 // assign initial variable to store data attribute/ reference current data or year we are looking at
+
    
-
+//----------------------------------------------------    
             
-         $.getJSON("us-states.json", function(states) {
-             // AJAX requests to load data files
-            
-              //console.log(states);
-
-    })      
-        // the data file failed to load
-        .fail(function() {
-        
-        console.log("Ruh roh! An error has occurred." );
-    });
-        
-
         
         $.getJSON("us-states.json", function(states) {
 
@@ -137,22 +173,34 @@
                     };
                     }
                 }).addTo(map);
+                
+                ui();
+                drawLegend();
                 drawMap();
+               
             }
         }); // end of Papa.parse() 
 
     });  // end of $.getJSON()
         
+        
+        
+         $('select[name="unemployment"]').change(function() {
 
+        attribute = $(this).val();
+             drawMap();
+
+    })      
+        
+//------------------------------------------------
         
          // function to process/bind data below
-        
          function processData(states, data){ //create function and define with two parameters 
                 
          for (var state in states.features) { //looping through GeoJSON state feature properties
 
             var props = states.features[state].properties; //create variable to reach 
-
+                                  //  console.log(states.features);
                                 //console.log(props.StateFP);
 
             for(var d in data.data) { //second loop to loop through csv data for each state
@@ -160,17 +208,16 @@
                     states.features[state].properties = data.data[d]; 
                     break;
                  }  
-                                 // console.log(data.data[d].STATE_FIP);
-            }//inner for loop is complete
-         } //outer for loop is complete
-                                  console.log(states);
-     } //function process Data complete
+                        // console.log(data.data[0].STATE_FIP);
+            }           //inner for loop is complete
+         }              //outer for loop is complete
+                                  console.log(data);
+     }                  //function process Data complete
                
       
 
-        
+//----------------------------------------------------        
  
-       
 
         // function to draw the map
         
@@ -183,36 +230,55 @@
                 var props = layer.feature.properties;
                 
                 layer.setStyle({
-                    fillColor: getColor(props[attribute]/ breaks)
+                    fillColor: getColor(Number(props[attribute]), breaks)
                 });
-//                layer.bindPopup("<b>"+props["NAME"]+" County</b></br>" +
-//                                attribute + ": " +
-//                                ((props[attribute]/props[norm])*100).toLocaleString());  
+
             });
-            
-            drawLegend(breaks);
+             //call the function to draw the legend, sending breaks array as argument
+            updateLegend(breaks);
+            //drawLegend(breaks);
         }
         
         // function to update the map
+ //---------------------------------------------------
         
+        //function for user interaction 
+        function ui() {
+
+        var dataView = L.control({position: 'topleft'});
+
+        dataView.onAdd = function(map) {
+
+            var controls = L.DomUtil.get('ui-controls');
+            return controls;
+        }
+
+        dataView.addTo(map);
+    }
+        
+    
+ //----------------------------------------------------           
+       
         // function get the class breaks  
-        
             function getClassBreaks() {
 
                 var values = [];
 
                 dataLayer.eachLayer(function(layer) {
                     var value = layer.feature.properties[attribute];
-                    values.push(value);   
+                    values.push(value);  
+                    //console.log(values);
                 }); 
-
+                
                 var breaks = ss.quantile(values, [0,0.2,0.4,0.6,0.8,1]);
                     //creates 5 categories that the values will fall into
                 return breaks;
 
             };   
         
-             // function to get the color value
+ //----------------------------------------------------           
+            
+            // function to get the color value
             function getColor(d, breaks) {
                 if(d <= breaks[1]) {
                     return '#f1eef6';
@@ -225,14 +291,49 @@
                 } else if(d <= breaks[5]) {
                     return '#045a8d'
                 }
-            }
-      
-       
                 
-        // function to draw the legend
+            }
         
-        // function to update the legend
+ //----------------------------------------------------           
+            
+            //function to add empty legend to map
+            function drawLegend() { 
+            
+                var legend = L.control({position: 'topleft'});
+                //create leaflet control object and position top left
+            
+                legend.onAdd = function(map) { 
+                
+                var div = L.DomUtil.create('div', 'legend'); //creates HTML <div> element
+                
+                return div; //returns div to be added to map
+            };
+            legend.addTo(map);//adds legend to map
+        }    
 
+//----------------------------------------------------    
+       
+        // function to update the legend
+         function updateLegend(breaks) {
+
+            var legend = $('.legend').html("<h3>" + "Unemployment in "+ attribute + "</h3><ul>"); 
+
+            for (var i = 0; i < breaks.length-1; i++) {
+                
+                
+                var color = getColor(breaks[i + 1], breaks);
+                
+                
+                legend.append('<li><span style="background:' + color + '"></span> ' +
+                              
+                    (breaks[i]).toLocaleString() + ' &mdash; ' + 
+                    (breaks[i + 1]).toLocaleString() + '</li>');
+            }
+            legend.append("</ul>");
+    }
+        
+        
+        
         // function to create the range slider
 
     </script>
