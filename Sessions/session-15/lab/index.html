@@ -3,7 +3,7 @@
 
 <head>
     <meta charset=utf-8 />
-    <title>Module 15 Lab Template</title>
+    <title>us-unemployment</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     
     
@@ -243,7 +243,7 @@
                         // console.log(data.data[0].STATE_FIP);
             }           //inner for loop is complete
          }              //outer for loop is complete
-                                  console.log(data);
+                                 // console.log(data);
      }                  //function process Data complete
                
       
@@ -298,7 +298,7 @@
 
                 dataLayer.eachLayer(function(layer) {
                     var value = layer.feature.properties[attribute];
-                    values.push(value);  
+                    values.push(Number(value));  
                     //console.log(values);
                 }); 
                 
@@ -351,7 +351,7 @@
             var legend = $('.legend').html("<h3>" + "Unemployment in "+ attribute + "</h3><ul>"); 
 
             for (var i = 0; i < breaks.length-1; i++) {
-                
+                console.log(breaks);
                 
                 var color = getColor(breaks[i + 1], breaks);
                 
