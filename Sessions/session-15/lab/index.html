@@ -117,6 +117,7 @@
     </label>
      </div>
 
+<!--
     <div id = 'ui-controls'>
         <label> Choose something: <br>
         <select> name = "unemployment">
@@ -136,6 +137,7 @@
         </select>
         </label>
     </div>
+-->
     
     <div id='map'></div>
     
@@ -192,7 +194,7 @@
                 dataLayer = L.geoJson(states, {
                     style: function(feature) {
                     return{
-                        color: '#74c476', //style from previous lab
+                        color: '#222222', //style from previous lab
                         weight: 2,
                         fillOpacity: 1,
                         fillColor: '#cc6633'
@@ -275,7 +277,7 @@
         //function for user interaction 
         function ui() {
 
-        var dataView = L.control({position: 'topleft'});
+        var dataView = L.control({position: 'bottomleft'});
 
         dataView.onAdd = function(map) {
 
@@ -311,15 +313,15 @@
             // function to get the color value
             function getColor(d, breaks) {
                 if(d <= breaks[1]) {
-                    return '#fee5d9';
+                    return '#eff3ff';
                 } else if(d <= breaks[2]) {
-                    return '#fcae91';
+                    return '#bdd7e7';
                 } else if(d <= breaks[3]) {
-                    return '#fb6a4a';
+                    return '#6baed6';
                 } else if(d <= breaks[4]) {
-                    return '#de2d26'
+                    return '#3182bd'
                 } else if(d <= breaks[5]) {
-                    return '#a50f15'
+                    return '#08519c'
                 }
                
             }
