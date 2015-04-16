@@ -55,38 +55,38 @@
 
 <body>
     <header>
-        <h1> Power Plants </h1>
-        <h2>Hydro Wind Coal</h2>
+        <h1> US Power Plants </h1>
+        <h2></h2>
     </header>
 
     <div id='map'></div>
 
     <footer>
         <p>Map authored by Anna Lee Espinosa Bard</p>
-        <p>Generation of energy in the US symbolized with proprotional circles. Hydropower generation symbolized with blue circles. Wind power symbolized with red circles. Coal power generation symbolized with gray circles. User may toggle on or off any of the fuel source layers.  </p>
+        <p>Generation of energy in the US symbolized with proprotional circles. Circles are sized with respect to each plant's annual net generation of power. Hydropower generation symbolized with blue circles. Wind power symbolized with red circles. Coal power generation symbolized with yellow circles. Natural gas symbolized with green circles. User may toggle on or off any of the fuel source layers.  </p>
         
         
     </footer>
     <script src="power-plants.js"></script>
     <script>
         var options = {
-            center: [35.653,-95.608],
+            center: [39.653,-95.608],
             zoom: 4
         }
         var map = L.map('map', options);
        var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png', {
 	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
 	subdomains: 'abcd',
-	minZoom: 0,
-	maxZoom: 18
+	minZoom: 3,
+	maxZoom: 6
 });
         map.addLayer(tiles);
      
         var layerInfo = {
             hydroLayer: {source:"Hydro", color:'#3182bd'}, 
             windLayer: {source:"Wind", color:'#de2d26'},
-//            naturalGasLayer: {source:"Natural Gas", color: '#31a354'},
-            coalLayer: {source:"Coal", color: 'gray'}
+            naturalGasLayer: {source:"Natural Gas", color: '#31a354'},
+            coalLayer: {source:"Coal", color: 'yellow'}
         }
         var geoJsonLayers = {};
             
@@ -128,8 +128,8 @@
         var sourcesLabels = {
             "<b style='color:#3182bd'>Hydro</b>": geoJsonLayers.hydroLayer,
             "<b style='color:#de2d26'>Wind</b>": geoJsonLayers.windLayer,
-           // "<b style='color:#31a354'>Natural Gas</b>": geoJsonLayers.naturalGasLayer,
-            "<b style='color:#gray'>Coal</b>": geoJsonLayers.coalLayer,
+            "<b style='color:#31a354'>Natural Gas</b>": geoJsonLayers.naturalGasLayer,
+            "<b style='color:#yellow'>Coal</b>": geoJsonLayers.coalLayer,
         };
         L.control.layers(null, sourcesLabels, { collapsed:false }).addTo(map);
         
