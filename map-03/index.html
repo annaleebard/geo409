@@ -133,7 +133,26 @@
         };
         L.control.layers(null, sourcesLabels, { collapsed:false }).addTo(map);
         
-       map.on('click', function(e){
+//       map.on('mousemove', function(e) {
+//            radiusCircle.setStyle({fillColor: "white"}).setLatLng(e.latlng);
+//            for(var l in geoJsonLayers) { 
+//                geoJsonLayers[l].eachLayer(function(layer) {
+//                    var distance = e.latlng.distanceTo(layer.getLatLng())/1000;
+//                    if(distance > 500) {
+//                        layer.setStyle({
+//                            fill: false
+//                        });  
+//                    } else {
+//                       layer.setStyle({
+//                            fill: true  
+//                       });  
+//                       layer.bindPopup(distance.toLocaleString()+" km from click");
+//                    }    
+//                });
+//            }
+//        });
+//        
+        map.on('click', function(e){
            for (var layer in geoJsonLayers){
   
                 geoJsonLayers[layer].eachLayer(function(layer) {
